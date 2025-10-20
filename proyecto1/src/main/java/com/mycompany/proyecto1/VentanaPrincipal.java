@@ -13,24 +13,19 @@ import javax.swing.JPanel;
  * @author Xavier
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
-    
+    private Partida partida;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName());
 
     /**
      * Creates new form VentanaPrincipal
      */
-    public VentanaPrincipal() {
+    public VentanaPrincipal(Partida partida) {
+        this.partida = partida;
         initComponents();
-        getContentPane().setBackground(Color.blue);
-        for (int i = 0; i < 25; i++) {
-    for (int j = 0; j < 25; j++) {
-        JPanel celda = new JPanel();
-        celda.setBackground(new Color(153,153,255)); 
-        celda.setBorder(BorderFactory.createLineBorder(Color.BLACK)); 
-        pnlTablero.add(celda); 
+        getContentPane().setBackground(Color.blue); 
     }
-}
-    }
+
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -43,10 +38,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         pnlTablero = new javax.swing.JPanel();
         pnlObjetos = new javax.swing.JPanel();
+        btnNivel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 204));
-        setPreferredSize(new java.awt.Dimension(912, 612));
 
         pnlTablero.setBackground(new java.awt.Color(153, 153, 255));
         pnlTablero.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
@@ -57,15 +52,28 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         pnlObjetos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         pnlObjetos.setPreferredSize(new java.awt.Dimension(294, 600));
 
+        btnNivel.setText("-->");
+        btnNivel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnNivelMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlObjetosLayout = new javax.swing.GroupLayout(pnlObjetos);
         pnlObjetos.setLayout(pnlObjetosLayout);
         pnlObjetosLayout.setHorizontalGroup(
             pnlObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 288, Short.MAX_VALUE)
+            .addGroup(pnlObjetosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnNivel)
+                .addContainerGap(210, Short.MAX_VALUE))
         );
         pnlObjetosLayout.setVerticalGroup(
             pnlObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(pnlObjetosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnNivel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -92,32 +100,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new VentanaPrincipal().setVisible(true));
-    }
+    private void btnNivelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNivelMouseClicked
+        partida.subirNivel();
+        System.out.println(partida.getNivel());
+    }//GEN-LAST:event_btnNivelMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnNivel;
     private javax.swing.JPanel pnlObjetos;
     private javax.swing.JPanel pnlTablero;
     // End of variables declaration//GEN-END:variables
