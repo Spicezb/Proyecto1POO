@@ -6,8 +6,13 @@ package com.mycompany.proyecto1;
 
 /**
  *
- * @author Xavier
+ * @author Paula Rodríguez A
  */
-public class Defensas {
+public class ReliquiaVida extends Componente{
+
+    public ReliquiaVida(String nombre, String imagen, int vida, int campos) {
+        super(nombre, imagen, vida, campos);
+    }
+    
     
 }
