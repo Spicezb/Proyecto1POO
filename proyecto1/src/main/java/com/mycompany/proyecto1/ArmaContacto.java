@@ -10,8 +10,8 @@ package com.mycompany.proyecto1;
  */
 public class ArmaContacto extends DefensasAtacantes{
 
-    public ArmaContacto(int danio, int nivel, int cantGolpesTiempo, int nivelAparicion, int rango, String nombre, String imagen, int vida, int campos) {
-        super(danio, nivel, cantGolpesTiempo, nivelAparicion, rango, nombre, imagen, vida, campos);
+    public ArmaContacto(String nombre, String imagen) {
+        super(3, 1, 1, 1, 1, nombre, imagen, 20, 1);
     }
 
     

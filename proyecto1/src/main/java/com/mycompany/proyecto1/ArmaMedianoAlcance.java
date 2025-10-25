@@ -10,9 +10,10 @@ package com.mycompany.proyecto1;
  */
 public class ArmaMedianoAlcance extends DefensasAtacantes{
 
-    public ArmaMedianoAlcance(int danio, int nivel, int cantGolpesTiempo, int nivelAparicion, int rango, String nombre, String imagen, int vida, int campos) {
-        super(danio, nivel, cantGolpesTiempo, nivelAparicion, rango, nombre, imagen, vida, campos);
+    public ArmaMedianoAlcance(String nombre, String imagen) {
+        super(4, 2, 1, 1, 3, nombre, imagen, 25, 2);
     }
+    
 
     
     @Override

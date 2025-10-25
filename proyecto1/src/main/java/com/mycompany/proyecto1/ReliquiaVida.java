@@ -14,5 +14,7 @@ public class ReliquiaVida extends Componente{
         super(nombre, imagen, vida, campos);
     }
     
-    
+    public boolean esDestruida() {
+        return !estaVivo();
+    }
 }

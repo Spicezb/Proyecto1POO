@@ -10,8 +10,8 @@ package com.mycompany.proyecto1;
  */
 public class ArmaBloque extends Defensa{
 
-    public ArmaBloque(int danio, int nivel, int cantGolpesTiempo, int nivelAparicion, int rango, String nombre, String imagen, int vida, int campos) {
-        super(danio, nivel, cantGolpesTiempo, nivelAparicion, rango, nombre, imagen, vida, campos);
+    public ArmaBloque(String nombre, String imagen) {
+        super(0, 1, 0, 1, 0, nombre, imagen, 25, 1);
     }
 
     

@@ -9,27 +9,22 @@ package com.mycompany.proyecto1;
  * @author Pau
  */
 public class ArmaAtaqueMultiple extends DefensasAtacantes{
-
-    public ArmaAtaqueMultiple(int danio, int nivel, int cantGolpesTiempo, int nivelAparicion, int rango, String nombre, String imagen, int vida, int campos) {
-        super(danio, nivel, cantGolpesTiempo, nivelAparicion, rango, nombre, imagen, vida, campos);
-    }
-
     
+    int cantidadAtaques;
 
-    @Override
-    public void atacar(Componente objetivo) {
-       
+    public ArmaAtaqueMultiple(String nombre, String imagen) {
+        super(2, 2, 1, 2, 3, nombre, imagen, 20, 2);
+        this.cantidadAtaques = 10;
     }
+
     
     @Override
     public int calcularDanio() {
-        return 0;
+        return cantidadAtaques * super.calcularDanio();
     }
 
-    @Override
-    public boolean estaEnRango(Componente objetivo) {
-        return false;
+    public int getCantidadAtaques() {
+        return cantidadAtaques;
     }
-    
     
 }

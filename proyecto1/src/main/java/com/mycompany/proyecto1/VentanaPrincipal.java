@@ -5,8 +5,9 @@
 package com.mycompany.proyecto1;
 
 import java.awt.Color;
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
+import java.awt.GridLayout;
+import java.util.ArrayList;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -14,19 +15,58 @@ import javax.swing.JPanel;
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
     private Partida partida;
+    private Casilla[][] matrizCasillas = new Casilla[25][25];
+    private Componente componenteSeleccionado;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName());
-
+    
     /**
      * Creates new form VentanaPrincipal
+     * @param partida
      */
     public VentanaPrincipal(Partida partida) {
         this.partida = partida;
         initComponents();
+        inicializarTablero();
         getContentPane().setBackground(Color.blue); 
+        
     }
 
-    
+    private void inicializarTablero() {
+    pnlTablero.removeAll();
+    pnlTablero.setLayout(new GridLayout(25, 25));
 
+    for (int i = 0; i < 25; i++) {
+        for (int j = 0; j < 25; j++) {
+            Casilla casilla = new Casilla(i, j);
+            matrizCasillas[i][j] = casilla;
+
+            casilla.addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    if (componenteSeleccionado != null && casilla.estaVacia()) {
+                        componenteSeleccionado.colocarEn(casilla.getXPos(), casilla.getYPos());
+                        casilla.colocarComponente(componenteSeleccionado);
+                        componenteSeleccionado = null;
+                    }
+                }
+            });
+
+            pnlTablero.add(casilla);
+        }
+    }
+
+    pnlTablero.revalidate();
+    pnlTablero.repaint();
+}
+
+    
+    public static void main(String[] args) {
+    SwingUtilities.invokeLater(() -> {
+        Partida partida = new Partida(new ArrayList<>()); // Puedes pasar una lista vacía o zombies iniciales
+        VentanaPrincipal ventana = new VentanaPrincipal(partida);
+        ventana.setVisible(true);
+    });
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -39,6 +79,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         pnlTablero = new javax.swing.JPanel();
         pnlObjetos = new javax.swing.JPanel();
         btnNivel = new javax.swing.JButton();
+        btnReliquia = new javax.swing.JButton();
+        btnDefensa = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 204));
@@ -59,20 +101,46 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        btnReliquia.setText("Posicionar Reliquia");
+        btnReliquia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReliquiaActionPerformed(evt);
+            }
+        });
+
+        btnDefensa.setText("Posicionar Defensa");
+        btnDefensa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDefensaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlObjetosLayout = new javax.swing.GroupLayout(pnlObjetos);
         pnlObjetos.setLayout(pnlObjetosLayout);
         pnlObjetosLayout.setHorizontalGroup(
             pnlObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlObjetosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnNivel)
-                .addContainerGap(210, Short.MAX_VALUE))
+                .addGroup(pnlObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlObjetosLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnNivel))
+                    .addGroup(pnlObjetosLayout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(btnReliquia))
+                    .addGroup(pnlObjetosLayout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(btnDefensa)))
+                .addContainerGap(140, Short.MAX_VALUE))
         );
         pnlObjetosLayout.setVerticalGroup(
             pnlObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlObjetosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnNivel)
+                .addGap(31, 31, 31)
+                .addComponent(btnReliquia)
+                .addGap(31, 31, 31)
+                .addComponent(btnDefensa)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -105,8 +173,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         System.out.println(partida.getNivel());
     }//GEN-LAST:event_btnNivelMouseClicked
 
+    private void btnReliquiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReliquiaActionPerformed
+        componenteSeleccionado = new ReliquiaVida("Reliquia", "reliquia.png", 100, 1);
+    }//GEN-LAST:event_btnReliquiaActionPerformed
+
+    private void btnDefensaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDefensaActionPerformed
+        componenteSeleccionado = new ArmaContacto("Torre", "torre.png");
+    }//GEN-LAST:event_btnDefensaActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDefensa;
     private javax.swing.JButton btnNivel;
+    private javax.swing.JButton btnReliquia;
     private javax.swing.JPanel pnlObjetos;
     private javax.swing.JPanel pnlTablero;
     // End of variables declaration//GEN-END:variables

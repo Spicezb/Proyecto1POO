@@ -24,11 +24,24 @@ public abstract class Componente {
     }
  
     public void recibirGolpe(int danio){
-        this.vida = vida - danio;
+        this.vida -= danio;
+        if (vida <= 0) {
+            morir();
+        }
     }
+      
     
     public void morir(){
         this.vida = 0;
+    }
+    
+    public boolean estaVivo() {
+        return vida > 0;
+    }
+    
+    public void colocarEn(int x, int y) {
+        this.setPosX(x);
+        this.setPosY(y);
     }
 
     public String getNombre() {

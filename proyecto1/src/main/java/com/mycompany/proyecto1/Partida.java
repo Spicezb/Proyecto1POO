@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Partida {
     private int nivel;
     private ArrayList<Zombie> zombies;
-    private ArrayList<Tropas> tropas;
+    private ArrayList<Componente> tropas;
     private ArrayList<Defensa> defensas;
     
     public Partida(ArrayList zombies){

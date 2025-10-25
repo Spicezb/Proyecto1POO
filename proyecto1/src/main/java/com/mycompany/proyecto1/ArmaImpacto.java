@@ -12,26 +12,22 @@ public class ArmaImpacto extends DefensasAtacantes{
     
     private int radioExplosion;
 
-    public ArmaImpacto(int radioExplosion, int danio, int nivel, int cantGolpesTiempo, int nivelAparicion, int rango, String nombre, String imagen, int vida, int campos) {
-        super(danio, nivel, cantGolpesTiempo, nivelAparicion, rango, nombre, imagen, vida, campos);
-        this.radioExplosion = radioExplosion;
+    public ArmaImpacto(String nombre, String imagen) {
+        super(10, 3, 1, 4, 1, nombre, imagen, 10, 1);
+        this.radioExplosion = 3;
     }
-
-    
     
     @Override
     public void atacar(Componente objetivo) {
-       
+       if (estaEnRango(objetivo)) {
+            objetivo.recibirGolpe(calcularDanio());
+            this.morir(); // se autodestruye
+        }
     }
     
-    @Override
-    public int calcularDanio() {
-        return 0;
-    }
 
-    @Override
-    public boolean estaEnRango(Componente objetivo) {
-        return false;   
+    public int getRadioExplosion() {
+        return radioExplosion;
     }
     
     
