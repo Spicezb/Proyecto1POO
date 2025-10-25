@@ -17,21 +17,21 @@ public abstract class Zombie {
         this.nivelDeAparicion = nivelDeAparicion;
     }
     
-    public void recibirAtaque(){
-        
-    }
-    
-    public void morir(){
-        
-    }
-    
-    public void atacar(){
-        
-    }
-    
-    public void moverse(){
-        
-    }
+//    public void recibirAtaque(){
+//        
+//    }
+//    
+//    public void morir(){
+//        
+//    }
+//    
+//    public void atacar(){
+//        
+//    }
+//    
+//    public void moverse(){
+//        
+//    }
 
     public int getId() {
         return id;
