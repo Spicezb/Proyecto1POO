@@ -1,37 +1,36 @@
 package com.mycompany.proyecto1;
 
-public abstract class Zombie {
+public abstract class Zombie extends Componente implements IAtacar{
     private int id;
-    private int vida;
     private int danno;
     private int velocidad;
     private int velocidadDeAtaque;
     private int nivelDeAparicion;
-    
-    public Zombie(int id,int vida,int danno,int velocidad, int velocidadDeAtaque, int nivelDeAparicion){
+   
+
+    public Zombie(int id, int danno, int velocidad, int velocidadDeAtaque, int nivelDeAparicion, String nombre, String imagen, int vida, int campos) {
+        super(nombre, imagen, vida, campos);
         this.id = id;
-        this.vida = vida;
         this.danno = danno;
         this.velocidad = velocidad;
         this.velocidadDeAtaque = velocidadDeAtaque;
         this.nivelDeAparicion = nivelDeAparicion;
     }
     
-//    public void recibirAtaque(){
-//        
-//    }
-//    
-//    public void morir(){
-//        
-//    }
-//    
-//    public void atacar(){
-//        
-//    }
-//    
-//    public void moverse(){
-//        
-//    }
+    @Override
+    public void recibirGolpe(int danio){
+        
+    }
+    
+    
+    @Override
+    public void atacar(Componente objetivo){
+        
+    }
+    
+    public void moverse(){
+        
+    }
 
     public int getId() {
         return id;
@@ -41,13 +40,6 @@ public abstract class Zombie {
         this.id = id;
     }
 
-    public int getVida() {
-        return vida;
-    }
-
-    public void setVida(int vida) {
-        this.vida = vida;
-    }
 
     public int getDanno() {
         return danno;

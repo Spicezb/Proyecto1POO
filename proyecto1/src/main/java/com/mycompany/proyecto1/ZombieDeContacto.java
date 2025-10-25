@@ -1,8 +1,22 @@
 package com.mycompany.proyecto1;
 
 public class ZombieDeContacto extends Zombie {
+
+    public ZombieDeContacto(int id, String nombre, String imagen) {
+        super(id, 3, 1, 1, 1, nombre, imagen, 30, 1);
+    }
     
-    public ZombieDeContacto(int id){
-        super(id,30,3,1,1,1);
+    @Override
+    public void atacar(Componente objetivo) {
+    }
+    
+    @Override
+    public int calcularDanio() {
+        return 0;
+    }
+
+    @Override
+    public boolean estaEnRango(Componente objetivo) {
+        return false;
     }
 }
