@@ -3,7 +3,7 @@ package com.mycompany.proyecto1;
 public class ZombieAereo extends Zombie{
 
     public ZombieAereo(int id, String nombre, String imagen) {
-        super(id, 3, 2, 3, 2, 1, 3, 1, nombre, imagen, 30, 1);
+        super(id, 3, 2, 3, 2, nombre, imagen, 30, 1);
     }
     
     

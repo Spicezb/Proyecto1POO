@@ -17,7 +17,7 @@ public abstract class Defensa extends Componente{
     private int rango;
 
     public Defensa(int danio, int nivel, int cantGolpesTiempo, int nivelAparicion, int rango, String nombre, String imagen, int vida, int campos) {
-        super(nombre, imagen, vida, campos);
+        super(nombre, imagen, vida, campos, nivelAparicion);
         this.danio = danio;
         this.nivel = nivel;
         this.cantGolpesTiempo = cantGolpesTiempo;

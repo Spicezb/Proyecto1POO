@@ -3,7 +3,7 @@ package com.mycompany.proyecto1;
 public class ZombieChoque extends Zombie{
 
     public ZombieChoque(int id, String nombre, String imagen) {
-        super(id, 60, 2, 1, 1, 1, 7, 1, nombre, imagen, 50, 1);
+        super(id, 60, 2, 1, 1, nombre, imagen, 50, 1);
     }
     
     @Override

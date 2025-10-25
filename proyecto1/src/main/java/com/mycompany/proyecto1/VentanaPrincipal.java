@@ -62,7 +62,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     
     public static void main(String[] args) {
     SwingUtilities.invokeLater(() -> {
-        Partida partida = new Partida(new ArrayList<>()); // Puedes pasar una lista vacía o zombies iniciales
+        Partida partida = new Partida(); // Puedes pasar una lista vacía o zombies iniciales
         VentanaPrincipal ventana = new VentanaPrincipal(partida);
         ventana.setVisible(true);
     });
@@ -174,7 +174,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNivelMouseClicked
 
     private void btnReliquiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReliquiaActionPerformed
-        componenteSeleccionado = new ReliquiaVida("Reliquia", "reliquia.png", 100, 1);
+        
     }//GEN-LAST:event_btnReliquiaActionPerformed
 
     private void btnDefensaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDefensaActionPerformed
