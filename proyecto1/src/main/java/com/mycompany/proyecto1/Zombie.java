@@ -5,16 +5,15 @@ public abstract class Zombie extends Componente implements IAtacar{
     private int danno;
     private int velocidad;
     private int velocidadDeAtaque;
-    private int nivelDeAparicion;
+    
    
 
     public Zombie(int id, int danno, int velocidad, int velocidadDeAtaque, int nivelDeAparicion, String nombre, String imagen, int vida, int campos) {
-        super(nombre, imagen, vida, campos);
+        super(nombre, imagen, vida, campos,nivelDeAparicion);
         this.id = id;
         this.danno = danno;
         this.velocidad = velocidad;
         this.velocidadDeAtaque = velocidadDeAtaque;
-        this.nivelDeAparicion = nivelDeAparicion;
     }
     
     @Override
@@ -32,7 +31,8 @@ public abstract class Zombie extends Componente implements IAtacar{
         
     }
 
-    public int getId() {
+    @Override
+    public long getId() {
         return id;
     }
 
@@ -64,13 +64,4 @@ public abstract class Zombie extends Componente implements IAtacar{
     public void setVelocidadDeAtaque(int velocidadDeAtaque) {
         this.velocidadDeAtaque = velocidadDeAtaque;
     }
-
-    public int getNivelDeAparicion() {
-        return nivelDeAparicion;
-    }
-
-    public void setNivelDeAparicion(int nivelDeAparicion) {
-        this.nivelDeAparicion = nivelDeAparicion;
-    }
-   
 }
