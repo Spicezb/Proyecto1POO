@@ -33,6 +33,7 @@ public abstract class Zombie extends Componente implements IAtacar{
     }
     
 
+
     @Override
     public boolean estaEnRango(Componente objetivo){
         if (objetivo == null) return false;
