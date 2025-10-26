@@ -12,7 +12,6 @@ com\mycompany\proyecto1\ArmaBloque.class
 configurador\componentes\VentanaConfiguracion$9.class
 com\mycompany\proyecto1\Zombie.class
 configurador\componentes\VentanaConfiguracion$4.class
-com\mycompany\proyecto1\VentanaPrincipal$3.class
 com\mycompany\proyecto1\Defensa.class
 configurador\componentes\VentanaConfiguracion$1.class
 com\mycompany\proyecto1\Componente.class
@@ -27,7 +26,6 @@ configurador\componentes\GestorComponentes.class
 configurador\componentes\VentanaConfiguracion.class
 com\mycompany\proyecto1\ZombieDeContacto.class
 configurador\componentes\VentanaConfiguracion$5.class
-com\mycompany\proyecto1\VentanaPrincipal$4.class
 com\mycompany\proyecto1\ZombieAereo.class
 configurador\componentes\TipoComponente.class
 configurador\componentes\VentanaConfiguracion$3.class

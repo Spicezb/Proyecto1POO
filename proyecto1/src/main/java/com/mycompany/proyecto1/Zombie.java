@@ -12,8 +12,7 @@ public abstract class Zombie extends Componente implements IAtacar{
    
 
     public Zombie(int id, int danno, int velocidad, int velocidadDeAtaque, int nivelDeAparicion, String nombre, String imagen, int vida, int campos) {
-        super(nombre, imagen, vida, campos,nivelDeAparicion);
-
+        super(nombre,imagen,vida,campos,nivelDeAparicion,id);
         this.id = id;
         this.danno = danno;
         this.rango = rango;
@@ -28,17 +27,12 @@ public abstract class Zombie extends Componente implements IAtacar{
     @Override
     public void atacar(Componente objetivo){
         if (estaEnRango(objetivo)) {
-            objetivo.recibirGolpe(calcularDanio());
+            objetivo.recibirGolpe(5);
         }
         
     }
     
-    @Override
-    public int calcularDanio(){
-        //return (int)(cantGolpesTiempo * (1 + (nivel * 0.1)));
-        return 0;
-    }
-    
+
     @Override
     public boolean estaEnRango(Componente objetivo){
         if (objetivo == null) return false;

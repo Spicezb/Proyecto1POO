@@ -1,17 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.proyecto1;
 
-/**
- *
- * @author Pau
- */
 public class ArmaAerea extends DefensasAtacantes{
-
-    public ArmaAerea(String nombre, String imagen) {
-        super(5, 2, 1, 2, 2, nombre, imagen, 30, 2);
+    private static final int NIVEL_APARICION = 2;
+    private static final String NOMBRE = "Arma aérea";
+    private static final int DANNO = 5;
+    private static final int VIDA = 30;
+    private static final int GOLPES_SEGUNDO = 2;
+    private static final int ESPACIOS = 2;
+    private static final int RANGO = 1;
+    
+    public ArmaAerea(int id, String imagen) {
+        super(DANNO, GOLPES_SEGUNDO, NIVEL_APARICION, RANGO, NOMBRE, imagen, VIDA, ESPACIOS,id);
     }
 
     
@@ -20,12 +19,7 @@ public class ArmaAerea extends DefensasAtacantes{
     public void atacar(Componente objetivo) {
     }
 
-
-    @Override
-    public int calcularDanio() {
-        return 0;
-
-    }
+    
 
     @Override
     public boolean estaEnRango(Componente objetivo) {

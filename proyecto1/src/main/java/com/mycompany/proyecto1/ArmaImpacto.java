@@ -1,26 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.proyecto1;
 
-/**
- *
- * @author Pau
- */
 public class ArmaImpacto extends DefensasAtacantes{
-    
+    private static final int NIVEL_APARICION = 7;
+    private static final String NOMBRE = "Arma de impacto";
+    private static final int DANNO = 8;
+    private static final int VIDA = 60;
+    private static final int GOLPES_SEGUNDO = 1;
+    private static final int ESPACIOS = 3;
+    private static final int RANGO = 1;
     private int radioExplosion;
 
-    public ArmaImpacto(String nombre, String imagen) {
-        super(10, 3, 1, 4, 1, nombre, imagen, 10, 1);
+    public ArmaImpacto(int id, String imagen) {
+        super(DANNO, GOLPES_SEGUNDO, NIVEL_APARICION, RANGO, NOMBRE, imagen, VIDA, ESPACIOS,id);
         this.radioExplosion = 3;
     }
     
     @Override
     public void atacar(Componente objetivo) {
        if (estaEnRango(objetivo)) {
-            objetivo.recibirGolpe(calcularDanio());
+            objetivo.recibirGolpe(5);
             this.morir(); // se autodestruye
         }
     }

@@ -4,10 +4,19 @@
  */
 package com.mycompany.proyecto1;
 
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import javax.swing.SwingUtilities;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.Box;
+import javax.swing.TransferHandler;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Component;
 
 /**
  *
@@ -17,6 +26,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private Partida partida;
     private Casilla[][] matrizCasillas = new Casilla[25][25];
     private Componente componenteSeleccionado;
+    private ArrayList<Componente> todasDefensas = new ArrayList<>();
+    private ArrayList<IAtacar> atacantes = new ArrayList();
+    private ArrayList<Componente> todos = new ArrayList();
+    private ArrayList<Componente> defensasDisponibles = new ArrayList<>();
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName());
     
     /**
@@ -27,10 +40,57 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         this.partida = partida;
         initComponents();
         inicializarTablero();
-        getContentPane().setBackground(Color.blue); 
-        
+        getContentPane().setBackground(Color.blue);
+        defensasTotales();
+    JPanel panelDefensas = new JPanel();
+    panelDefensas.setLayout(new BoxLayout(panelDefensas, BoxLayout.Y_AXIS));
+    panelDefensas.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+    panelDefensas.setBackground(Color.WHITE);
+
+    jScrollPane1.setViewportView(panelDefensas);
+
+        actualizarScrollDefensas(panelDefensas);
+    }
+    
+    private void defensasTotales(){
+            todasDefensas.add(new ArmaAerea(1,""));
+            todasDefensas.add(new ArmaAtaqueMultiple(2,""));
+            todasDefensas.add(new ArmaBloque(3,""));
+            todasDefensas.add(new ArmaContacto(4,""));
+            todasDefensas.add(new ArmaImpacto(5,""));
+            todasDefensas.add(new ArmaMedianoAlcance(6,""));
+            todasDefensas.add(new ReliquiaVida("Vida","",1,1,1,7));
+            for (int i = 0; i < todasDefensas.size(); i++) {
+                Componente d = todasDefensas.get(i);
+            if (d.getNivelDeAparicion() <= partida.getNivel()) {
+                defensasDisponibles.add(d);
+    }
+    }
     }
 
+    public void actualizarScrollDefensas(JPanel panelDefensas) {
+        panelDefensas.removeAll(); 
+
+        for (int i = 0; i < defensasDisponibles.size(); i++) {
+            Componente d = defensasDisponibles.get(i);
+
+            JLabel label = new JLabel(d.getNombre());
+            label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            label.setOpaque(true);
+            label.setBackground(Color.LIGHT_GRAY);
+            label.setMaximumSize(new Dimension(180, 30));
+            label.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            label.setTransferHandler(new TransferHandler("text"));
+
+            panelDefensas.add(Box.createRigidArea(new Dimension(0, 5)));
+            panelDefensas.add(label);
+    }
+
+        panelDefensas.revalidate();
+        panelDefensas.repaint();
+}
+    
     private void inicializarTablero() {
     pnlTablero.removeAll();
     pnlTablero.setLayout(new GridLayout(25, 25));
@@ -79,8 +139,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         pnlTablero = new javax.swing.JPanel();
         pnlObjetos = new javax.swing.JPanel();
         btnNivel = new javax.swing.JButton();
-        btnReliquia = new javax.swing.JButton();
-        btnDefensa = new javax.swing.JButton();
+        btnComenzar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 204));
@@ -101,47 +163,48 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        btnReliquia.setText("Posicionar Reliquia");
-        btnReliquia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReliquiaActionPerformed(evt);
-            }
-        });
+        btnComenzar.setText("Comenzar");
 
-        btnDefensa.setText("Posicionar Defensa");
-        btnDefensa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDefensaActionPerformed(evt);
-            }
-        });
+        jLabel1.setText("Ejército:");
+
+        jLabel2.setText("Nivel:");
 
         javax.swing.GroupLayout pnlObjetosLayout = new javax.swing.GroupLayout(pnlObjetos);
         pnlObjetos.setLayout(pnlObjetosLayout);
         pnlObjetosLayout.setHorizontalGroup(
             pnlObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlObjetosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnNivel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnComenzar)
+                .addContainerGap())
+            .addGroup(pnlObjetosLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
                 .addGroup(pnlObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlObjetosLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnNivel))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(22, Short.MAX_VALUE))
                     .addGroup(pnlObjetosLayout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(btnReliquia))
-                    .addGroup(pnlObjetosLayout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(btnDefensa)))
-                .addContainerGap(140, Short.MAX_VALUE))
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addGap(43, 43, 43))))
         );
         pnlObjetosLayout.setVerticalGroup(
             pnlObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlObjetosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnNivel)
-                .addGap(31, 31, 31)
-                .addComponent(btnReliquia)
-                .addGap(31, 31, 31)
-                .addComponent(btnDefensa)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(14, 14, 14)
+                .addGroup(pnlObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addGap(36, 36, 36)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pnlObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnComenzar)
+                    .addComponent(btnNivel))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -173,18 +236,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         System.out.println(partida.getNivel());
     }//GEN-LAST:event_btnNivelMouseClicked
 
-    private void btnReliquiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReliquiaActionPerformed
-        
-    }//GEN-LAST:event_btnReliquiaActionPerformed
-
-    private void btnDefensaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDefensaActionPerformed
-        componenteSeleccionado = new ArmaContacto("Torre", "torre.png");
-    }//GEN-LAST:event_btnDefensaActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnDefensa;
+    private javax.swing.JButton btnComenzar;
     private javax.swing.JButton btnNivel;
-    private javax.swing.JButton btnReliquia;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pnlObjetos;
     private javax.swing.JPanel pnlTablero;
     // End of variables declaration//GEN-END:variables

@@ -16,13 +16,16 @@ public abstract class Componente {
     private int nivelAparicion;
     private int posX;
     private int posY;
+    private int id;
 
-    public Componente(String nombre, String imagen, int vida, int campos, int nivelAparicion) {
+    public Componente(String nombre, String imagen, int vida, int campos, int nivelAparicion,int id) {
         this.nombre = nombre;
         this.imagen = imagen;
         this.vida = vida;
         this.campos = campos;
         this.nivelAparicion = nivelAparicion;
+        this.id = id;
+        
     }
  
     public void recibirGolpe(int danio){
@@ -94,5 +97,7 @@ public abstract class Componente {
         this.posY = posY;
     }
     
-    
+    public int getNivelDeAparicion(){
+        return nivelAparicion;
+    }
 }

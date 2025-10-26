@@ -1,37 +1,29 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.proyecto1;
 
-/**
- *
- * @author Paula Rodríguez A
- */
 public class DefensasAtacantes extends Defensa implements IAtacar{
-
-    public DefensasAtacantes(int danio, int nivel, int cantGolpesTiempo, int nivelAparicion, int rango, String nombre, String imagen, int vida, int campos) {
-        super(danio, nivel, cantGolpesTiempo, nivelAparicion, rango, nombre, imagen, vida, campos);
+    private int danno;
+    private int rango;
+    private int golpesSegundo;
+    
+    
+    public DefensasAtacantes(int danno,int GolpesPorSegundo, int nivelAparicion, int rango, String nombre, String imagen, int vida, int campos,int id) {
+        super(nivelAparicion, nombre, imagen, vida, campos,id);
+        this.danno=danno;
     }
     
 
     @Override
     public void atacar(Componente objetivo) {
         if (estaEnRango(objetivo)) {
-            objetivo.recibirGolpe(calcularDanio());
+            objetivo.recibirGolpe(5);
         }
-    }
-
-    @Override
-    public int calcularDanio() {
-        return (int)(this.getCantGolpesTiempo() * (1 + (this.getNivel() * 0.1)));
     }
 
     @Override
     public boolean estaEnRango(Componente objetivo) {
         if (objetivo == null) return false;
         int distancia = Math.abs(this.getPosX() - objetivo.getPosX()) + Math.abs(this.getPosY() - objetivo.getPosY());
-        return distancia <= this.getRango();
+        return true;
     }
     
     

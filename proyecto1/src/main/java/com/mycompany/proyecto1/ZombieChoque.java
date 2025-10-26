@@ -9,7 +9,7 @@ public class ZombieChoque extends Zombie{
     @Override
     public void atacar(Componente objetivo) {
         if (estaEnRango(objetivo)) {
-            objetivo.recibirGolpe(calcularDanio());
+            objetivo.recibirGolpe(5);
             this.morir(); // explota al atacar
         }
     }
@@ -18,10 +18,7 @@ public class ZombieChoque extends Zombie{
     public void moverse() {
     }
     
-    @Override
-    public int calcularDanio() {
-        return 0;
-    }
+
 
     @Override
     public boolean estaEnRango(Componente objetivo) {

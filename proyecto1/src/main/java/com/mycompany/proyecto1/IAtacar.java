@@ -11,7 +11,6 @@ package com.mycompany.proyecto1;
 public interface IAtacar {
 
     public void atacar(Componente objetivo);
-    public int calcularDanio();
     boolean estaEnRango(Componente objetivo);
     
 }

@@ -6,8 +6,8 @@ package com.mycompany.proyecto1;
  */
 public class ReliquiaVida extends Componente{
 
-    public ReliquiaVida(String nombre, String imagen, int vida, int campos, int nivelAparicion) {
-        super(nombre, imagen, vida, campos, nivelAparicion);
+    public ReliquiaVida(String nombre, String imagen, int vida, int campos, int nivelAparicion, int id) {
+        super(nombre, imagen, vida, campos, nivelAparicion, id);
     }
     
     public boolean esDestruida() {

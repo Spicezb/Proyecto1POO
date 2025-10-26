@@ -16,10 +16,6 @@ public class ZombieMedio extends Zombie{
     public void moverse() {
     }
     
-    @Override
-    public int calcularDanio() {
-        return 0;
-    }
 
     @Override
     public boolean estaEnRango(Componente objetivo) {
