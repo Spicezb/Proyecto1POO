@@ -28,16 +28,11 @@ public abstract class Zombie extends Componente implements IAtacar{
     @Override
     public void atacar(Componente objetivo){
         if (estaEnRango(objetivo)) {
-            objetivo.recibirGolpe(calcularDanio());
+            objetivo.recibirGolpe(danno);
         }
         
     }
-    
-    @Override
-    public int calcularDanio(){
-        //return (int)(cantGolpesTiempo * (1 + (nivel * 0.1)));
-        return 0;
-    }
+       
     
     @Override
     public boolean estaEnRango(Componente objetivo){

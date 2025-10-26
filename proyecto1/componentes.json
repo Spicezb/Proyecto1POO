@@ -1,0 +1,57 @@
+[
+  {
+    "nombre": "Muro de púas",
+    "vida": 3,
+    "danio": 2,
+    "nivelAparicion": 2,
+    "golpesPorTiempo": 2,
+    "rango": 1,
+    "tipo": "Defensa",
+    "subtipo": "Contacto",
+    "imagen": "C:\\Users\\Paula Rodríguez A\\OneDrive\\Documentos\\NetBeansProjects\\Progra01_POO\\Proyecto1POO\\proyecto1\\src\\main\\java\\Imagenes\\Zombie1.png"
+  },
+  {
+    "nombre": "malla",
+    "vida": 2,
+    "danio": 0,
+    "nivelAparicion": 1,
+    "golpesPorTiempo": 0,
+    "rango": 0,
+    "tipo": "Defensa",
+    "subtipo": "Bloque",
+    "imagen": "C:\\Users\\Paula Rodríguez A\\OneDrive\\Documentos\\NetBeansProjects\\Progra01_POO\\Proyecto1POO\\proyecto1\\src\\main\\java\\Imagenes\\Zombie1.png"
+  },
+  {
+    "nombre": "superzombie",
+    "vida": 4,
+    "danio": 2,
+    "nivelAparicion": 2,
+    "golpesPorTiempo": 32,
+    "rango": 4,
+    "tipo": "Zombie",
+    "subtipo": "Contacto",
+    "imagen": "C:\\Users\\Paula Rodríguez A\\OneDrive\\Documentos\\NetBeansProjects\\Progra01_POO\\Proyecto1POO\\proyecto1\\src\\main\\java\\Imagenes\\Zombie1.png"
+  },
+  {
+    "nombre": "kwljxh",
+    "vida": 2,
+    "danio": 0,
+    "nivelAparicion": 3,
+    "golpesPorTiempo": 0,
+    "rango": 0,
+    "tipo": "Defensa",
+    "subtipo": "Bloque",
+    "imagen": "C:\\Users\\Paula Rodríguez A\\OneDrive\\Documentos\\NetBeansProjects\\Progra01_POO\\Proyecto1POO\\proyecto1\\src\\main\\java\\Imagenes\\Zombie1.png"
+  },
+  {
+    "nombre": "gs",
+    "vida": 23,
+    "danio": 0,
+    "nivelAparicion": 2,
+    "golpesPorTiempo": 0,
+    "rango": 0,
+    "tipo": "Defensa",
+    "subtipo": "Bloque",
+    "imagen": "C:\\Users\\Paula Rodríguez A\\OneDrive\\Documentos\\NetBeansProjects\\Progra01_POO\\Proyecto1POO\\proyecto1\\Imagenes\\zombie1.png"
+  }
+]
