@@ -1,14 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.proyecto1;
 
-/**
- *
- * @author Pau
- */
 public abstract class Componente {
+    private String tipo;
     private String nombre;
     private String imagen;
     private int vida;
@@ -18,16 +11,28 @@ public abstract class Componente {
     private int posY;
     private int id;
 
-    public Componente(String nombre, String imagen, int vida, int campos, int nivelAparicion,int id) {
+    public Componente(String nombre, String imagen, int vida, int campos, int nivelAparicion,int id,String tipo) {
         this.nombre = nombre;
         this.imagen = imagen;
         this.vida = vida;
         this.campos = campos;
         this.nivelAparicion = nivelAparicion;
         this.id = id;
-        
+        this.tipo = tipo;
     }
  
+    public Componente(Componente original,int id) {
+        this.nombre = original.getNombre();
+        this.vida = original.getVida();
+        this.campos = original.getCampos();
+        this.tipo = original.getTipo();
+        this.imagen = original.getImagen();
+        this.nivelAparicion = original.getNivelDeAparicion();
+        this.id = id;
+    }
+
+    public abstract Componente clonar(int nuevoId);
+    
     public void recibirGolpe(int danio){
         this.vida -= danio;
         if (vida <= 0) {
@@ -99,5 +104,9 @@ public abstract class Componente {
     
     public int getNivelDeAparicion(){
         return nivelAparicion;
+    }
+    
+    public String getTipo(){
+        return tipo;
     }
 }

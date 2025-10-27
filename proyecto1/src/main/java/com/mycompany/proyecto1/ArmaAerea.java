@@ -1,25 +1,25 @@
 package com.mycompany.proyecto1;
 
 public class ArmaAerea extends DefensasAtacantes{
-    private static final int NIVEL_APARICION = 2;
-    private static final String NOMBRE = "Arma aérea";
-    private static final int DANNO = 5;
-    private static final int VIDA = 30;
-    private static final int GOLPES_SEGUNDO = 2;
+    private static final String TIPO = "Aerea";
     private static final int ESPACIOS = 2;
-    private static final int RANGO = 1;
     
-    public ArmaAerea(int id, String imagen) {
-        super(DANNO, GOLPES_SEGUNDO, NIVEL_APARICION, RANGO, NOMBRE, imagen, VIDA, ESPACIOS,id);
+    public ArmaAerea(int id,int danno, int golpesSegundo,int rango, int nivelAparicion, String nombre,String imagen, int vida) {
+        super(danno,golpesSegundo, nivelAparicion, rango, nombre, imagen, vida, ESPACIOS,id, TIPO);
     }
 
-    
+    public ArmaAerea(ArmaAerea original, int nuevoId) {
+        super(original, nuevoId);
+    }
 
+    @Override
+    public Componente clonar(int nuevoId) {
+        return new ArmaAerea(this, nuevoId);
+    }
+    
     @Override
     public void atacar(Componente objetivo) {
     }
-
-    
 
     @Override
     public boolean estaEnRango(Componente objetivo) {

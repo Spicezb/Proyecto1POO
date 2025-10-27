@@ -2,8 +2,11 @@ package com.mycompany.proyecto1;
 
 public class ZombieChoque extends Zombie{
 
-    public ZombieChoque(int id, String nombre, String imagen) {
-        super(id, 60, 2, 1, 1, nombre, imagen, 50, 1);
+    private static final String TIPO = "Zombie de choque";
+    private static final int ESPACIOS = 4;
+    
+    public ZombieChoque(int id, int danno, int velocidad, int velocidadDeAtaque, int nivelAparicion, String nombre, String imagen, int vida) {
+        super(id,danno,velocidad, velocidadDeAtaque,nivelAparicion,nombre,imagen,vida,ESPACIOS,TIPO);
     }
     
     @Override
@@ -18,7 +21,10 @@ public class ZombieChoque extends Zombie{
     public void moverse() {
     }
     
-
+    @Override
+    public Componente clonar(int id){
+        return null;
+    }
 
     @Override
     public boolean estaEnRango(Componente objetivo) {

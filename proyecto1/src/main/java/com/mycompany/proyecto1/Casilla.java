@@ -1,39 +1,57 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.proyecto1;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
+import java.awt.*;
+import java.awt.datatransfer.*;
+import javax.swing.*;
 
-/**
- *
- * @author Paula Rodríguez A
- */
-public class Casilla extends JPanel{
-    
+public class Casilla extends JPanel {
+
+    private VentanaPrincipal refVentana;
     private int x, y;
     private Componente componente;
+    private boolean estado; // true si hay un componente
+    public static final DataFlavor COMPONENTE_FLAVOR = new DataFlavor(Componente.class, "Componente");
 
-    public Casilla(int x, int y) {
+    public Casilla(int x, int y, VentanaPrincipal refVentana) {
+        this.refVentana = refVentana;
         this.x = x;
         this.y = y;
         setPreferredSize(new Dimension(24, 24));
         setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        setBackground(Color.WHITE);
+        setBackground((y < 2 || y > 22 || x < 2 || x > 22) ? Color.PINK : Color.WHITE);
+
+        // Drop handler
+        setTransferHandler(new TransferHandler() {
+            @Override
+            public boolean canImport(TransferSupport support) {
+                return support.isDataFlavorSupported(COMPONENTE_FLAVOR);
+            }
+
+            @Override
+            public boolean importData(TransferHandler.TransferSupport support) {
+                try {
+                    Componente base = (Componente) support.getTransferable()
+                            .getTransferData(ComponenteTransferible.COMPONENTE_FLAVOR);
+
+                    if (base != null && estaVacia()) {
+                        // Crear clon con ID único
+                        Componente nuevaDefensa = refVentana.cloneComponente(base);
+                        colocarComponente(nuevaDefensa);
+                        refVentana.agregarDefensaColocada(nuevaDefensa); // agrega a arrayLists de la ventana
+                        return true;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return false;
+            }
+        });
     }
 
     public void colocarComponente(Componente c) {
         this.componente = c;
+        this.estado = true;
         repaint();
-    }
-
-    public Componente getComponente() {
-        return componente;
     }
 
     public boolean estaVacia() {
@@ -52,8 +70,9 @@ public class Casilla extends JPanel{
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (componente != null) {
-            g.setColor(Color.BLACK);
-            g.drawString(componente.getNombre().substring(0, 1), 10, 15);
+            ImageIcon icono = new ImageIcon(getClass().getResource(componente.getImagen()));
+            g.drawImage(icono.getImage(), 2, 2, 24, 24, this);
         }
     }
 }
+

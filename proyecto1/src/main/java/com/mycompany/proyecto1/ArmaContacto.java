@@ -1,20 +1,22 @@
 package com.mycompany.proyecto1;
 
 public class ArmaContacto extends DefensasAtacantes{
-    private static final int NIVEL_APARICION = 1;
-    private static final String NOMBRE = "Arma de contacto";
-    private static final int DANNO = 5;
-    private static final int VIDA = 40;
-    private static final int GOLPES_SEGUNDO = 2;
+    private static final String TIPO = "Contacto";
     private static final int ESPACIOS = 2;
-    private static final int RANGO = 1;
     
     
-    public ArmaContacto(int id, String imagen) {
-        super(DANNO, GOLPES_SEGUNDO, NIVEL_APARICION, RANGO, NOMBRE, imagen, VIDA, ESPACIOS,id);
+    public ArmaContacto(int id,int danno, int golpesSegundo,int rango, int nivelAparicion, String nombre,String imagen, int vida) {
+        super(danno,golpesSegundo, nivelAparicion, rango, nombre, imagen, vida, ESPACIOS,id, TIPO);
     }
 
+    public ArmaContacto(ArmaContacto original, int nuevoId) {
+        super(original, nuevoId);
+    }
     
+    @Override
+    public Componente clonar(int nuevoId) {
+        return new ArmaContacto(this, nuevoId);
+    }
     
     @Override
     public void atacar(Componente objetivo) {

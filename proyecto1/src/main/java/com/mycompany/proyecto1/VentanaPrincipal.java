@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.proyecto1;
 
 import java.awt.GridLayout;
@@ -17,19 +13,30 @@ import javax.swing.TransferHandler;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Component;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.datatransfer.Transferable;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.net.URL;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 
 /**
  *
  * @author Xavier
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
+    private int siguienteId = 1;
     private Partida partida;
     private Casilla[][] matrizCasillas = new Casilla[25][25];
     private Componente componenteSeleccionado;
-    private ArrayList<Componente> todasDefensas = new ArrayList<>();
+    private ArrayList<Defensa> todasDefensas = new ArrayList<>();
+    private ArrayList<Defensa> equipo = new ArrayList<>();
     private ArrayList<IAtacar> atacantes = new ArrayList();
     private ArrayList<Componente> todos = new ArrayList();
-    private ArrayList<Componente> defensasDisponibles = new ArrayList<>();
+    private ArrayList<Defensa> defensasDisponibles = new ArrayList<>();
+    private JPanel pnlDefensas;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName());
     
     /**
@@ -41,63 +48,128 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         initComponents();
         inicializarTablero();
         getContentPane().setBackground(Color.blue);
+        
+        todasDefensas.add(new ArmaAerea(1,7,4,1,5,"Dron","/muro1.jpg",30));
+        todasDefensas.add(new ArmaAtaqueMultiple(1,7,4,1,4,"canõn","/muro1.jpg",30));
+        todasDefensas.add(new ArmaBloque(8,1,"Murillo","/muro1.jpg", 20));
+        todasDefensas.add(new ArmaContacto(1,1,4,1,6,"barbaro","/muro1.jpg",30));
+        todasDefensas.add(new ArmaImpacto(1,7,4,1,3,"ariete","/muro1.jpg",30));
+        todasDefensas.add(new ArmaMedianoAlcance(1,7,4,1,4,"9mil","/muro1.jpg",30));
+        todasDefensas.add(new ReliquiaVida(8));
+        
+        
         defensasTotales();
-    JPanel panelDefensas = new JPanel();
-    panelDefensas.setLayout(new BoxLayout(panelDefensas, BoxLayout.Y_AXIS));
-    panelDefensas.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-    panelDefensas.setBackground(Color.WHITE);
-
-    jScrollPane1.setViewportView(panelDefensas);
-
-        actualizarScrollDefensas(panelDefensas);
+        
+        pnlDefensas = new JPanel();
+        pnlDefensas.setLayout(new BoxLayout(pnlDefensas, BoxLayout.Y_AXIS));
+        pnlDefensas.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        pnlDefensas.setBackground(Color.WHITE);
+        jScrollPane1.setViewportView(pnlDefensas);
+        actualizarScrollDefensas();
     }
     
     private void defensasTotales(){
-            todasDefensas.add(new ArmaAerea(1,""));
-            todasDefensas.add(new ArmaAtaqueMultiple(2,""));
-            todasDefensas.add(new ArmaBloque(3,""));
-            todasDefensas.add(new ArmaContacto(4,""));
-            todasDefensas.add(new ArmaImpacto(5,""));
-            todasDefensas.add(new ArmaMedianoAlcance(6,""));
-            todasDefensas.add(new ReliquiaVida("Vida","",1,1,1,7));
-            for (int i = 0; i < todasDefensas.size(); i++) {
-                Componente d = todasDefensas.get(i);
-            if (d.getNivelDeAparicion() <= partida.getNivel()) {
-                defensasDisponibles.add(d);
+        defensasDisponibles.clear();
+        for (int i = 0; i < todasDefensas.size(); i++) {
+            Defensa d = todasDefensas.get(i);
+        if (d.getNivelDeAparicion() <= partida.getNivel()) {
+            defensasDisponibles.add(d);
     }
     }
     }
 
-    public void actualizarScrollDefensas(JPanel panelDefensas) {
-        panelDefensas.removeAll(); 
+    public void actualizarScrollDefensas() {
+    pnlDefensas.removeAll(); // Limpiamos el panel antes de agregar nuevos componentes
 
-        for (int i = 0; i < defensasDisponibles.size(); i++) {
-            Componente d = defensasDisponibles.get(i);
+    for (int i = 0; i < defensasDisponibles.size(); i++) {
+        Componente c = defensasDisponibles.get(i);
 
-            JLabel label = new JLabel(d.getNombre());
-            label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            label.setOpaque(true);
-            label.setBackground(Color.LIGHT_GRAY);
-            label.setMaximumSize(new Dimension(180, 30));
-            label.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // Panel “tarjeta” para cada componente
+        JPanel card = new JPanel();
+        card.setLayout(new BoxLayout(card, BoxLayout.X_AXIS));
+        card.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(Color.DARK_GRAY, 1),
+            BorderFactory.createEmptyBorder(5, 5, 5, 5)
+        ));
+        card.setBackground(Color.WHITE);
+        card.setMaximumSize(new Dimension(250, 100));
 
-            label.setTransferHandler(new TransferHandler("text"));
+        // Imagen 24x24
+        JLabel lblImagen = new JLabel();
+        ImageIcon icono = new ImageIcon(getClass().getResource(c.getImagen()));
+        Image img = icono.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
+        lblImagen.setIcon(new ImageIcon(img));
 
-            panelDefensas.add(Box.createRigidArea(new Dimension(0, 5)));
-            panelDefensas.add(label);
+        // Panel de información (nombre, tipo, vida, ataque si aplica, espacios)
+        JPanel panelInfo = new JPanel();
+        panelInfo.setLayout(new BoxLayout(panelInfo, BoxLayout.Y_AXIS));
+        panelInfo.setOpaque(false);
+
+        JLabel lblNombre = new JLabel("Nombre: " + c.getNombre());
+        lblNombre.setFont(new Font("Arial", Font.BOLD, 12));
+        panelInfo.add(lblNombre);
+
+        JLabel lblTipo = new JLabel("Tipo: " + c.getTipo());
+        lblTipo.setFont(new Font("Arial", Font.PLAIN, 12));
+        panelInfo.add(lblTipo);
+
+        JLabel lblVida = new JLabel("Vida: " + c.getVida());
+        lblVida.setFont(new Font("Arial", Font.PLAIN, 12));
+        panelInfo.add(lblVida);
+
+        if (c instanceof IAtacar) {
+            IAtacar atacante = (IAtacar) c;
+            JLabel lblAtaque = new JLabel("Ataque: " + atacante.getDanno());
+            lblAtaque.setFont(new Font("Arial", Font.PLAIN, 12));
+            panelInfo.add(lblAtaque);
+        }
+
+        JLabel lblEspacios = new JLabel("Espacios: " + c.getCampos());
+        lblEspacios.setFont(new Font("Arial", Font.PLAIN, 12));
+        panelInfo.add(lblEspacios);
+
+        // Agregar imagen e info al “card”
+        card.add(lblImagen);
+        card.add(Box.createRigidArea(new Dimension(10, 0)));
+        card.add(panelInfo);
+
+        // Drag & Drop funcional con ComponenteTransferible
+        card.setTransferHandler(new TransferHandler() {
+            @Override
+            protected Transferable createTransferable(JComponent c1) {
+                return new ComponenteTransferible(c);
+            }
+
+            @Override
+            public int getSourceActions(JComponent c1) {
+                return COPY;
+            }
+        });
+
+        card.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                JComponent jc = (JComponent) e.getSource();
+                jc.getTransferHandler().exportAsDrag(jc, e, TransferHandler.COPY);
+            }
+        });
+
+        // Agregar tarjeta al panel principal con espacio vertical
+        pnlDefensas.add(Box.createRigidArea(new Dimension(0, 5)));
+        pnlDefensas.add(card);
     }
 
-        panelDefensas.revalidate();
-        panelDefensas.repaint();
+    pnlDefensas.revalidate();
+    pnlDefensas.repaint();
 }
-    
+
     private void inicializarTablero() {
     pnlTablero.removeAll();
     pnlTablero.setLayout(new GridLayout(25, 25));
 
     for (int i = 0; i < 25; i++) {
         for (int j = 0; j < 25; j++) {
-            Casilla casilla = new Casilla(i, j);
+            Casilla casilla = new Casilla(i, j,this);
             matrizCasillas[i][j] = casilla;
 
             casilla.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -118,7 +190,23 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     pnlTablero.revalidate();
     pnlTablero.repaint();
 }
+    
+    public void agregarDefensaColocada(Componente c) {
+        todos.add(c);
+        System.out.println(c.getNombre() + " ha sido agregado al juego");
+        if (c instanceof IAtacar) {
+            atacantes.add((IAtacar) c);
+        }
+        equipo.add((Defensa) c);
+ }
+    
+    public Componente cloneComponente(Componente plantilla) {
+    // Suponemos que tenés un contador de IDs en la ventana
+    int nuevoId = siguienteId++;  
 
+    // Llamamos al método clonar de cada componente
+    return plantilla.clonar(nuevoId);
+}
     
     public static void main(String[] args) {
     SwingUtilities.invokeLater(() -> {
@@ -164,6 +252,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
 
         btnComenzar.setText("Comenzar");
+
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         jLabel1.setText("Ejército:");
 
@@ -233,6 +323,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void btnNivelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNivelMouseClicked
         partida.subirNivel();
+        defensasTotales();
+        actualizarScrollDefensas();
         System.out.println(partida.getNivel());
     }//GEN-LAST:event_btnNivelMouseClicked
 

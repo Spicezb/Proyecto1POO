@@ -1,18 +1,22 @@
 package com.mycompany.proyecto1;
 
 public class ArmaImpacto extends DefensasAtacantes{
-    private static final int NIVEL_APARICION = 7;
-    private static final String NOMBRE = "Arma de impacto";
-    private static final int DANNO = 8;
-    private static final int VIDA = 60;
-    private static final int GOLPES_SEGUNDO = 1;
-    private static final int ESPACIOS = 3;
-    private static final int RANGO = 1;
+    private static final String TIPO = "Impacto";
+    private static final int ESPACIOS = 2;
     private int radioExplosion;
 
-    public ArmaImpacto(int id, String imagen) {
-        super(DANNO, GOLPES_SEGUNDO, NIVEL_APARICION, RANGO, NOMBRE, imagen, VIDA, ESPACIOS,id);
+    public ArmaImpacto(int id,int danno, int golpesSegundo,int rango, int nivelAparicion, String nombre,String imagen, int vida) {
+        super(danno,golpesSegundo, nivelAparicion, rango, nombre, imagen, vida, ESPACIOS,id, TIPO);
         this.radioExplosion = 3;
+    }
+    
+    public ArmaImpacto(ArmaImpacto original, int nuevoId) {
+        super(original, nuevoId);
+    }
+    
+    @Override
+    public Componente clonar(int nuevoId) {
+        return new ArmaImpacto(this, nuevoId);
     }
     
     @Override
