@@ -1,28 +1,19 @@
 package com.mycompany.proyecto1;
 
 public abstract class Zombie extends Componente implements IAtacar{
-    private int id;
     private int danno;
     private int rango;
-    private int nivel;
     private int velocidad;
     private int velocidadDeAtaque;
 
-    
-   
-
-    public Zombie(int id, int danno, int velocidad, int velocidadDeAtaque, int nivelDeAparicion, String nombre, String imagen, int vida, int campos) {
-        super(nombre,imagen,vida,campos,nivelDeAparicion,id);
-        this.id = id;
+    public Zombie(int id, int danno, int velocidad, int velocidadDeAtaque, int nivelAparicion, String nombre, String imagen, int vida, int campos,String tipo) {
+        super(nombre,imagen,vida,campos,nivelAparicion,id,tipo);
         this.danno = danno;
         this.rango = rango;
-        this.nivel = nivel;
         this.velocidad = velocidad;
         this.velocidadDeAtaque = velocidadDeAtaque;
 
-    }
-    
-    
+    }  
     
     @Override
     public void atacar(Componente objetivo){
@@ -32,8 +23,6 @@ public abstract class Zombie extends Componente implements IAtacar{
         
     }
     
-
-
     @Override
     public boolean estaEnRango(Componente objetivo){
         if (objetivo == null) return false;
@@ -42,16 +31,6 @@ public abstract class Zombie extends Componente implements IAtacar{
     }
     
     public abstract void moverse();
-
-    
-    public long getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
 
     public int getDanno() {
         return danno;

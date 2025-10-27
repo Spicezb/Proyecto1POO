@@ -1,19 +1,21 @@
 package com.mycompany.proyecto1;
 
 public class ArmaMedianoAlcance extends DefensasAtacantes{
-    private static final int NIVEL_APARICION = 5;
-    private static final String NOMBRE = "Arma de mediano alcance";
-    private static final int DANNO = 9;
-    private static final int VIDA = 25;
-    private static final int GOLPES_SEGUNDO = 2;
-    private static final int ESPACIOS = 3;
-    private static final int RANGO = 3;
+    private static final String TIPO = "Mediano alcance";
+    private static final int ESPACIOS = 2;
     
-    public ArmaMedianoAlcance(int id, String imagen) {
-        super(DANNO, GOLPES_SEGUNDO, NIVEL_APARICION, RANGO, NOMBRE, imagen, VIDA, ESPACIOS,id);
+    public ArmaMedianoAlcance(int id,int danno, int golpesSegundo,int rango, int nivelAparicion, String nombre,String imagen, int vida) {
+        super(danno,golpesSegundo, nivelAparicion, rango, nombre, imagen, vida, ESPACIOS,id, TIPO);
     }
     
-
+    public ArmaMedianoAlcance(ArmaMedianoAlcance original, int nuevoId) {
+        super(original, nuevoId);
+    }
+    
+    @Override
+    public Componente clonar(int nuevoId) {
+        return new ArmaMedianoAlcance(this, nuevoId);
+    }
     
     @Override
     public void atacar(Componente objetivo) {

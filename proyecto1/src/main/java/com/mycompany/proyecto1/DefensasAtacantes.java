@@ -1,17 +1,21 @@
 package com.mycompany.proyecto1;
 
-public class DefensasAtacantes extends Defensa implements IAtacar{
+public abstract class DefensasAtacantes extends Defensa implements IAtacar{
     private int danno;
     private int rango;
     private int golpesSegundo;
     
     
-    public DefensasAtacantes(int danno,int GolpesPorSegundo, int nivelAparicion, int rango, String nombre, String imagen, int vida, int campos,int id) {
-        super(nivelAparicion, nombre, imagen, vida, campos,id);
+    public DefensasAtacantes(int danno,int GolpesPorSegundo, int nivelAparicion, int rango, String nombre, String imagen, int vida, int campos,int id,String tipo) {
+        super(nivelAparicion, nombre, imagen, vida, campos,id,tipo);
         this.danno=danno;
     }
     
-
+    public DefensasAtacantes(DefensasAtacantes original, int nuevoId) {
+        super(original, nuevoId);
+        this.danno = original.danno;
+    }
+    
     @Override
     public void atacar(Componente objetivo) {
         if (estaEnRango(objetivo)) {
@@ -26,5 +30,9 @@ public class DefensasAtacantes extends Defensa implements IAtacar{
         return true;
     }
     
-    
+    @Override
+    public int getDanno(){
+        return danno;
+    }
 }
+
