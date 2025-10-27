@@ -4,11 +4,9 @@
  */
 package configurador.componentes;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -16,36 +14,71 @@ import java.util.*;
  * @author Paula Rodríguez A
  */
 public class GestorComponentes {
-    
-    private static final String RUTA = "componentes.json";
+    private static final String NOMBRE_ARCHIVO = "componentes.ser";
 
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    
-    private static final java.lang.reflect.Type LIST_TYPE = new TypeToken<List<TipoComponente>>(){}.getType();
-    
-    public static void guardarComponente(TipoComponente componente) {
-        
-        List<TipoComponente> lista = cargarComponentes();
-        lista.add(componente);
-        try (Writer writer = new FileWriter(RUTA)) {
-            gson.toJson(lista, writer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
+    /**
+     * Carga todos los componentes guardados del archivo serializado.
+     * Si el archivo no existe o está vacío, devuelve una lista vacía.
+     */
     public static List<TipoComponente> cargarComponentes() {
-        File file = new File(RUTA);
-        if (!file.exists()) {
-            return new ArrayList<>(); // Si el archivo no existe, devuelve una lista vacía
+        
+        List<TipoComponente> listaComponentes = new ArrayList<>();
+        File archivo = new File(NOMBRE_ARCHIVO);
+
+        
+        if (archivo.exists() && archivo.length() > 0) {
+            try (FileInputStream fileIn = new FileInputStream(archivo);
+                 ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
+
+                
+                listaComponentes = (List<TipoComponente>) objectIn.readObject();
+
+            } catch (IOException e) {
+                
+                System.err.println("Error de I/O al cargar componentes: " + e.getMessage());
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                
+                System.err.println("Error de clase: No se encuentra TipoComponente: " + e.getMessage());
+                e.printStackTrace();
+            } catch (ClassCastException e) {
+                 System.err.println("Error de casting: El archivo no contiene una List<TipoComponente>.");
+                 e.printStackTrace();
+            }
         }
-        try (Reader reader = new FileReader(RUTA)) {
-            List<TipoComponente> lista = gson.fromJson(reader, LIST_TYPE);
-            return lista != null ? lista : new ArrayList<>(); // Devuelve lista o lista vacía si falla la lectura
+        return listaComponentes;
+    }
+
+   
+    public static void guardarComponente(TipoComponente nuevoComponente) {
+        
+        List<TipoComponente> listaActual = cargarComponentes();
+        
+        boolean actualizado = false;
+        
+        for (int i = 0; i < listaActual.size(); i++) {
+            TipoComponente c = listaActual.get(i);
+            if (c.getNombre().equals(nuevoComponente.getNombre())) {
+                listaActual.set(i, nuevoComponente); // Reemplazar
+                actualizado = true;
+                break;
+            }
+        }
+        
+        if (!actualizado) {
+            listaActual.add(nuevoComponente);
+        }
+
+        try (FileOutputStream fileOut = new FileOutputStream(NOMBRE_ARCHIVO);
+             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut)) {
+
+            objectOut.writeObject(listaActual);
+            
         } catch (IOException e) {
+            System.err.println("Error de I/O al guardar componentes: " + e.getMessage());
             e.printStackTrace();
-            return new ArrayList<>();
         }
     }
     
+
 }

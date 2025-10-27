@@ -18,10 +18,10 @@ configurador\componentes\VentanaConfiguracion$1.class
 com\mycompany\proyecto1\Componente.class
 com\mycompany\proyecto1\Proyecto1.class
 com\mycompany\proyecto1\ArmaMedianoAlcance.class
-configurador\componentes\GestorComponentes$1.class
 configurador\componentes\VentanaConfiguracion$6.class
 com\mycompany\proyecto1\VentanaPrincipal$1.class
 com\mycompany\proyecto1\Partida.class
+configurador\componentes\GuardarComponentes.class
 com\mycompany\proyecto1\ArmaContacto.class
 configurador\componentes\GestorComponentes.class
 configurador\componentes\VentanaConfiguracion.class

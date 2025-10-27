@@ -4,11 +4,16 @@
  */
 package configurador.componentes;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Paula Rodríguez A
  */
-public class TipoComponente {
+public class TipoComponente implements Serializable{
+    
+    private static final long serialVersionUID = 1L;
+    
     private String nombre;
     private int vida;
     private int danio;
