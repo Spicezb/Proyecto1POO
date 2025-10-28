@@ -20,12 +20,13 @@ public class TipoComponente implements Serializable{
     private int nivelAparicion;
     private int golpesPorTiempo;
     private int rango;
-    private String tipo;      // "Zombie" o "Defensa"
-    private String subtipo;   // "Contacto", "Aéreo", "Impacto", etc.
-    private String imagen;    // Ruta local de la imagen
-
+    private String tipo;      
+    private String subtipo;   
+    private String imagen;    
+    private int Velocidad;
+    
     public TipoComponente(String nombre, int vida, int danio, int nivelAparicion,
-                          int golpesPorTiempo, int rango, String tipo, String subtipo, String imagen) {
+                          int golpesPorTiempo, int rango, String tipo, String subtipo, String imagen, int Velocidad) {
         this.nombre = nombre;
         this.vida = vida;
         this.danio = danio;
@@ -35,8 +36,10 @@ public class TipoComponente implements Serializable{
         this.tipo = tipo;
         this.subtipo = subtipo;
         this.imagen = imagen;
+        this.Velocidad = Velocidad;
     }
 
+    
     public String getNombre() {
         return nombre;
     }
@@ -107,6 +110,14 @@ public class TipoComponente implements Serializable{
 
     public void setRango(int rango) {
         this.rango = rango;
+    }
+
+    public int getVelocidad() {
+        return Velocidad;
+    }
+
+    public void setVelocidad(int Velocidad) {
+        this.Velocidad = Velocidad;
     }
     
     

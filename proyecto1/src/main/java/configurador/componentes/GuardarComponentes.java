@@ -23,15 +23,12 @@ import com.mycompany.proyecto1.ZombieMedio;
 
 import com.mycompany.proyecto1.Componente;
 
-/**
- * Clase estática encargada de mapear los objetos de configuración (TipoComponente)
- * a los objetos funcionales del juego (subclases de Componente).
- */
+
 public class GuardarComponentes {
-/*
+
     public static Componente crearComponente(TipoComponente tipoConfig) {
         
-        // 1. Extraer todos los datos del objeto de configuración
+        
         int vida = tipoConfig.getVida();
         int danio = tipoConfig.getDanio();
         int nivel = tipoConfig.getNivelAparicion();
@@ -39,58 +36,50 @@ public class GuardarComponentes {
         int rango = tipoConfig.getRango();
         String imagen = tipoConfig.getImagen();
         String subtipo = tipoConfig.getSubtipo();
-        String nombre = tipoConfig.getNombre(); // El nombre también es importante
+        String nombre = tipoConfig.getNombre(); 
+        int id = 2;
+        int velocidad = tipoConfig.getVelocidad();
 
-        // =====================================================================
-        // 2. Lógica para DEFENSAS
-        // =====================================================================
         
         if ("Defensa".equals(tipoConfig.getTipo())) {
             
-            // Nota: Se asume que el constructor de Defensas es: 
-            // (vida, danio, nivelAparicion, golpesPorTiempo, rango, imagen)
+            
             switch (subtipo) {
                 case "Bloque":
-                    return new ArmaBloque(vida, danio, nivel, golpes, rango, imagen);
+                    return new ArmaBloque(id++, nivel, nombre, imagen, vida);
                 case "Contacto":
-                    return new ArmaContacto(vida, danio, nivel, golpes, rango, imagen);
-                case "MedianoAlcance":
-                    return new ArmaMedianoAlcance(vida, danio, nivel, golpes, rango, imagen);
+                    return new ArmaContacto(id++, danio, golpes, rango, nivel, nombre, imagen, vida);
+                case "Mediano Alcance":
+                    return new ArmaMedianoAlcance(id++, danio, golpes, rango, nivel, nombre, imagen, vida);
                 case "Aerea":
-                    return new ArmaAerea(vida, danio, nivel, golpes, rango, imagen);
+                    return new ArmaAerea(id++, danio, golpes, rango, nivel, nombre, imagen, vida);
                 case "Impacto":
-                    return new ArmaImpacto(vida, danio, nivel, golpes, rango, imagen);
-                case "AtaqueMultiple":
-                    return new ArmaAtaqueMultiple(vida, danio, nivel, golpes, rango, imagen);
+                    return new ArmaImpacto(id++, danio, golpes, rango, nivel, nombre, imagen, vida);
+                case "Ataque múltiple":
+                    return new ArmaAtaqueMultiple(id++, danio, golpes, rango, nivel, nombre, imagen, vida);
                 default:
                     throw new IllegalArgumentException("Subtipo de Defensa desconocido: " + subtipo);
             }
         } 
-        
-        // =====================================================================
-        // 3. Lógica para ZOMBIES (Nueva implementación)
-        // =====================================================================
         else if ("Zombie".equals(tipoConfig.getTipo())) {
             
-            // Nota: Se asume que el constructor de Zombies también usa la misma firma
-            // (vida, danio, nivelAparicion, golpesPorTiempo, rango, imagen)
+            
             switch (subtipo) {
                 case "Aereo":
-                    return new ZombieAereo(vida, danio, nivel, golpes, rango, imagen);
+                    return new ZombieAereo(id++, danio, velocidad, golpes, nivel, nombre, imagen, vida);
                 case "Choque":
-                    return new ZombieChoque(vida, danio, nivel, golpes, rango, imagen);
-                case "Contacto": // Usamos el nombre de subtipo "Contacto" para el zombie
-                    return new ZombieDeContacto(vida, danio, nivel, golpes, rango, imagen);
+                    return new ZombieChoque(id++, danio, velocidad, golpes, nivel, nombre, imagen, vida);
+                case "Contacto": 
+                    return new ZombieDeContacto(id++, danio, velocidad, golpes, nivel, nombre, imagen, vida);
                 case "Medio":
-                    return new ZombieMedio(vida, danio, nivel, golpes, rango, imagen);
+                    return new ZombieMedio(id++, danio, velocidad, golpes, nivel, nombre, imagen, vida);
                 default:
                     throw new IllegalArgumentException("Subtipo de Zombie desconocido: " + subtipo);
             }
         }
         
-        // 4. Error si el tipo principal no es reconocido
         throw new IllegalArgumentException("Tipo de componente principal desconocido: " + tipoConfig.getTipo());
     }
 
-*/
+
 }

@@ -19,8 +19,13 @@ import java.awt.datatransfer.Transferable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URL;
+import java.util.logging.Level;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import configurador.componentes.GestorComponentes;
+import configurador.componentes.GuardarComponentes;
+import configurador.componentes.TipoComponente;
+import java.util.List;
 
 /**
  *
@@ -36,6 +41,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private ArrayList<IAtacar> atacantes = new ArrayList();
     private ArrayList<Componente> todos = new ArrayList();
     private ArrayList<Defensa> defensasDisponibles = new ArrayList<>();
+    private ArrayList<Zombie> todosZombiesBase = new ArrayList<>();
     private JPanel pnlDefensas;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName());
     
@@ -49,6 +55,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         inicializarTablero();
         getContentPane().setBackground(Color.blue);
         
+        todasDefensas.clear();
+        /*
         todasDefensas.add(new ArmaAerea(1,7,4,1,5,"Dron","/muro1.jpg",30));
         todasDefensas.add(new ArmaAtaqueMultiple(1,7,4,1,4,"canõn","/muro1.jpg",30));
         todasDefensas.add(new ArmaBloque(8,1,"Murillo","/muro1.jpg", 20));
@@ -56,17 +64,45 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         todasDefensas.add(new ArmaImpacto(1,7,4,1,3,"ariete","/muro1.jpg",30));
         todasDefensas.add(new ArmaMedianoAlcance(1,7,4,1,4,"9mil","/muro1.jpg",30));
         todasDefensas.add(new ReliquiaVida(8));
-        
-        
+        */
+        todasDefensas.clear();
+        todosZombiesBase.clear();
+        todasDefensas.addAll(partida.getDefensasBase());
+        todosZombiesBase.addAll(partida.getZombiesBase());
+        cargarComponentesPersonalizados();
         defensasTotales();
-        
+
         pnlDefensas = new JPanel();
+
+        
         pnlDefensas.setLayout(new BoxLayout(pnlDefensas, BoxLayout.Y_AXIS));
         pnlDefensas.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
         pnlDefensas.setBackground(Color.WHITE);
         jScrollPane1.setViewportView(pnlDefensas);
         actualizarScrollDefensas();
     }
+    
+    private void cargarComponentesPersonalizados() {
+        
+        List<TipoComponente> configuraciones = GestorComponentes.cargarComponentes();
+
+        for (TipoComponente config : configuraciones) {
+            try {
+                Componente componenteReal = GuardarComponentes.crearComponente(config);
+
+                if ("Defensa".equals(config.getTipo())) {
+                    todasDefensas.add((Defensa) componenteReal);
+                    System.out.println("Defensa personalizada cargada: " + componenteReal.getNombre());
+                } else if ("Zombie".equals(config.getTipo())) {
+                    todosZombiesBase.add((Zombie) componenteReal);
+                    System.out.println("Zombie base cargado: " + componenteReal.getNombre());
+                }
+
+            } catch (Exception e) {
+                logger.log(java.util.logging.Level.SEVERE, "Error al cargar componente: " + config.getNombre(), e);
+            }
+        }
+}
     
     private void defensasTotales(){
         defensasDisponibles.clear();
@@ -79,88 +115,111 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     public void actualizarScrollDefensas() {
-    pnlDefensas.removeAll(); // Limpiamos el panel antes de agregar nuevos componentes
+        pnlDefensas.removeAll(); // Limpiamos el panel antes de agregar nuevos componentes
 
-    for (int i = 0; i < defensasDisponibles.size(); i++) {
-        Componente c = defensasDisponibles.get(i);
+        for (int i = 0; i < defensasDisponibles.size(); i++) {
+            Componente c = defensasDisponibles.get(i);
 
-        // Panel “tarjeta” para cada componente
-        JPanel card = new JPanel();
-        card.setLayout(new BoxLayout(card, BoxLayout.X_AXIS));
-        card.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(Color.DARK_GRAY, 1),
-            BorderFactory.createEmptyBorder(5, 5, 5, 5)
-        ));
-        card.setBackground(Color.WHITE);
-        card.setMaximumSize(new Dimension(250, 100));
+            // Panel “tarjeta” para cada componente
+            JPanel card = new JPanel();
+            card.setLayout(new BoxLayout(card, BoxLayout.X_AXIS));
+            card.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.DARK_GRAY, 1),
+                BorderFactory.createEmptyBorder(5, 5, 5, 5)
+            ));
+            card.setBackground(Color.WHITE);
+            card.setMaximumSize(new Dimension(250, 100));
 
-        // Imagen 24x24
-        JLabel lblImagen = new JLabel();
-        ImageIcon icono = new ImageIcon(getClass().getResource(c.getImagen()));
-        Image img = icono.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
-        lblImagen.setIcon(new ImageIcon(img));
+            // Imagen 24x24
+            JLabel lblImagen = new JLabel();
+            ImageIcon icono = null;
+            URL imageUrl = getClass().getResource(c.getImagen());
 
-        // Panel de información (nombre, tipo, vida, ataque si aplica, espacios)
-        JPanel panelInfo = new JPanel();
-        panelInfo.setLayout(new BoxLayout(panelInfo, BoxLayout.Y_AXIS));
-        panelInfo.setOpaque(false);
+            if (imageUrl != null) {
+                icono = new ImageIcon(imageUrl);
+            } else {
+                // 2. Si no se encuentra como recurso, intenta cargar como ARCHIVO EXTERNO (para imágenes personalizadas)
+                try {
+                    java.io.File imageFile = new java.io.File(c.getImagen());
+                    if (imageFile.exists()) {
+                        icono = new ImageIcon(imageFile.getAbsolutePath());
+                    } else {
+                        // Fallback si la ruta no existe
+                        logger.log(Level.WARNING, "Imagen no encontrada en disco para componente: " + c.getNombre() + " en ruta: " + c.getImagen());
+                        lblImagen.setText("[IMG]");
+                    }
+                } catch (Exception e) {
+                    // Manejar error de lectura de archivo
+                    logger.log(Level.SEVERE, "Error al cargar imagen como archivo externo: " + c.getImagen(), e);
+                    lblImagen.setText("[IMG]");
+                }
+                if (icono != null) {
+                    Image img = icono.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
+                    lblImagen.setIcon(new ImageIcon(img));
+                }
+            
+            // Panel de información (nombre, tipo, vida, ataque si aplica, espacios)
+            JPanel panelInfo = new JPanel();
+            panelInfo.setLayout(new BoxLayout(panelInfo, BoxLayout.Y_AXIS));
+            panelInfo.setOpaque(false);
 
-        JLabel lblNombre = new JLabel("Nombre: " + c.getNombre());
-        lblNombre.setFont(new Font("Arial", Font.BOLD, 12));
-        panelInfo.add(lblNombre);
+            JLabel lblNombre = new JLabel("Nombre: " + c.getNombre());
+            lblNombre.setFont(new Font("Arial", Font.BOLD, 12));
+            panelInfo.add(lblNombre);
 
-        JLabel lblTipo = new JLabel("Tipo: " + c.getTipo());
-        lblTipo.setFont(new Font("Arial", Font.PLAIN, 12));
-        panelInfo.add(lblTipo);
+            JLabel lblTipo = new JLabel("Tipo: " + c.getTipo());
+            lblTipo.setFont(new Font("Arial", Font.PLAIN, 12));
+            panelInfo.add(lblTipo);
 
-        JLabel lblVida = new JLabel("Vida: " + c.getVida());
-        lblVida.setFont(new Font("Arial", Font.PLAIN, 12));
-        panelInfo.add(lblVida);
+            JLabel lblVida = new JLabel("Vida: " + c.getVida());
+            lblVida.setFont(new Font("Arial", Font.PLAIN, 12));
+            panelInfo.add(lblVida);
 
-        if (c instanceof IAtacar) {
-            IAtacar atacante = (IAtacar) c;
-            JLabel lblAtaque = new JLabel("Ataque: " + atacante.getDanno());
-            lblAtaque.setFont(new Font("Arial", Font.PLAIN, 12));
-            panelInfo.add(lblAtaque);
+            if (c instanceof IAtacar) {
+                IAtacar atacante = (IAtacar) c;
+                JLabel lblAtaque = new JLabel("Ataque: " + atacante.getDanno());
+                lblAtaque.setFont(new Font("Arial", Font.PLAIN, 12));
+                panelInfo.add(lblAtaque);
+            }
+
+            JLabel lblEspacios = new JLabel("Espacios: " + c.getCampos());
+            lblEspacios.setFont(new Font("Arial", Font.PLAIN, 12));
+            panelInfo.add(lblEspacios);
+
+            // Agregar imagen e info al “card”
+            card.add(lblImagen);
+            card.add(Box.createRigidArea(new Dimension(10, 0)));
+            card.add(panelInfo);
+
+            // Drag & Drop funcional con ComponenteTransferible
+            card.setTransferHandler(new TransferHandler() {
+                @Override
+                protected Transferable createTransferable(JComponent c1) {
+                    return new ComponenteTransferible(c);
+                }
+
+                @Override
+                public int getSourceActions(JComponent c1) {
+                    return COPY;
+                }
+            });
+
+            card.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    JComponent jc = (JComponent) e.getSource();
+                    jc.getTransferHandler().exportAsDrag(jc, e, TransferHandler.COPY);
+                }
+            });
+
+            // Agregar tarjeta al panel principal con espacio vertical
+            pnlDefensas.add(Box.createRigidArea(new Dimension(0, 5)));
+            pnlDefensas.add(card);
         }
 
-        JLabel lblEspacios = new JLabel("Espacios: " + c.getCampos());
-        lblEspacios.setFont(new Font("Arial", Font.PLAIN, 12));
-        panelInfo.add(lblEspacios);
-
-        // Agregar imagen e info al “card”
-        card.add(lblImagen);
-        card.add(Box.createRigidArea(new Dimension(10, 0)));
-        card.add(panelInfo);
-
-        // Drag & Drop funcional con ComponenteTransferible
-        card.setTransferHandler(new TransferHandler() {
-            @Override
-            protected Transferable createTransferable(JComponent c1) {
-                return new ComponenteTransferible(c);
-            }
-
-            @Override
-            public int getSourceActions(JComponent c1) {
-                return COPY;
-            }
-        });
-
-        card.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                JComponent jc = (JComponent) e.getSource();
-                jc.getTransferHandler().exportAsDrag(jc, e, TransferHandler.COPY);
-            }
-        });
-
-        // Agregar tarjeta al panel principal con espacio vertical
-        pnlDefensas.add(Box.createRigidArea(new Dimension(0, 5)));
-        pnlDefensas.add(card);
+        pnlDefensas.revalidate();
+        pnlDefensas.repaint();
     }
-
-    pnlDefensas.revalidate();
-    pnlDefensas.repaint();
 }
 
     private void inicializarTablero() {
@@ -210,7 +269,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     
     public static void main(String[] args) {
     SwingUtilities.invokeLater(() -> {
-        Partida partida = new Partida(); // Puedes pasar una lista vacía o zombies iniciales
+        Partida partida = new Partida("Prueba"); // Puedes pasar una lista vacía o zombies iniciales
         VentanaPrincipal ventana = new VentanaPrincipal(partida);
         ventana.setVisible(true);
     });

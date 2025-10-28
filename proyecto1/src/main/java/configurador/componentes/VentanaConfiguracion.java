@@ -49,13 +49,10 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                     String tipoSeleccionado = cmbTipo.getSelectedItem().toString();
                     if (tipoSeleccionado.equals("Defensa")) {
                         actualizarSubtiposDefensa();
-                        // Habilitar campos de daño y rango, excepto para 'Bloque'
-                        habilitarCamposDefensa(true); 
                     } else if (tipoSeleccionado.equals("Zombie")) {
                         actualizarSubtiposZombie();
-                        habilitarCamposDefensa(true); 
+                        habilitarCamposZombie(); 
                     } else {
-                        // En caso de que se necesiten otros tipos
                         cmbSubtipo.setModel(new DefaultComboBoxModel<>());
                         habilitarCamposDefensa(true); 
                     }
@@ -63,41 +60,54 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
             }
         });
         
-        // Listener para el ComboBox de Subtipo, solo para deshabilitar daño si es 'Bloque'
         cmbSubtipo.addItemListener(new java.awt.event.ItemListener() {
             @Override
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
+                    String tipoSeleccionado = cmbTipo.getSelectedItem().toString();
                     String subtipoSeleccionado = (String) cmbSubtipo.getSelectedItem();
-                    // Solo el subtipo Bloque no ataca, por lo tanto no necesita Daño ni Rango
                     boolean esBloque = "Bloque".equals(subtipoSeleccionado);
-                    txfDanio.setEnabled(!esBloque);
-                    txfGolpes.setEnabled(!esBloque);
-                    txfGolpes.setEnabled(!esBloque);
+                        if (esBloque){
+                            txfDanio.setEnabled(false);
+                            txfGolpes.setEnabled(false);
+                            txfRango.setEnabled(false);
+                        }
+                        else
+                            if(tipoSeleccionado.equals("Defensa"))
+                                habilitarCamposDefensa(true);
+                            else
+                                habilitarCamposZombie();
                 }
             }
         });
     }
     
-    // Método auxiliar para manejar la visibilidad de campos
     private void habilitarCamposDefensa(boolean habilitar) {
-        // Daño y Rango se habilitan/deshabilitan en el itemStateChanged de cmbSubtipo, 
-        // así que por defecto los habilitamos aquí.
+        
         txfDanio.setEnabled(habilitar);
         txfGolpes.setEnabled(habilitar);
-        txfGolpes.setEnabled(habilitar);
+        txfRango.setEnabled(habilitar);
+        txfVelocidad.setEnabled(false);
+    }
+    
+    private void habilitarCamposZombie() {
+        
+        txfDanio.setEnabled(true);
+        txfGolpes.setEnabled(true);
+        txfRango.setEnabled(true);
+        txfVelocidad.setEnabled(true);
     }
 
 
     private void actualizarSubtiposDefensa() {
         // Subtipos de Defensas (DefensasAtacantes y Bloque)
         String[] subtiposDefensa = {
-            "Bloque",           // No ataca
-            "Contacto",         // Muro de pinchos, Valla eléctrica, Martillo
-            "MedianoAlcance",   // Lanzallamas, Cañón, Metralleta
-            "Aerea",            // Dron, Globo, Helicóptero armado
-            "Impacto",          // Mina, Barril explosivo
-            "AtaqueMultiple"    // Arco de flechas, Lanzador de misiles, Cañón de clavos, Torre ametralladora
+            "Bloque",          
+            "Contacto",         
+            "Mediano Alcance",   
+            "Aerea",          
+            "Impacto",          
+            "Ataque Múltiple"    
         };
         cmbSubtipo.setModel(new javax.swing.DefaultComboBoxModel<>(subtiposDefensa));
     }
@@ -164,6 +174,8 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
         txfDanio = new javax.swing.JTextField();
         txfNivelAparicion = new javax.swing.JTextField();
         txfVida = new javax.swing.JTextField();
+        txfVelocidad = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
         txfRango = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -270,6 +282,14 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
             }
         });
 
+        txfVelocidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txfVelocidadActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setText("Velocidad");
+
         txfRango.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txfRangoActionPerformed(evt);
@@ -281,37 +301,6 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(62, 62, 62)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txfGolpes, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txfNivelAparicion, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txfRango, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txfVida, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txfDanio, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(73, 73, 73))
-            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnImagen)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -319,9 +308,7 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                             .addGap(77, 77, 77)
                             .addComponent(jLabel8))
                         .addGroup(layout.createSequentialGroup()
-                            .addGap(99, 99, 99)
-                            .addComponent(btnGuardar)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGap(287, 287, 287)
                             .addComponent(btnVerLista))
                         .addGroup(layout.createSequentialGroup()
                             .addGap(167, 167, 167)
@@ -336,6 +323,46 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                                         .addComponent(cmbSubtipo, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(43, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(62, 62, 62)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txfGolpes, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txfNivelAparicion, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txfVelocidad, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txfRango, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txfVida, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txfDanio, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(57, 57, 57))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(65, 65, 65)
+                        .addComponent(btnGuardar)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -360,6 +387,9 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                     .addComponent(txfNombre))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txfVida, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -378,17 +408,18 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                             .addComponent(jLabel5)
                             .addComponent(btnImagen))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txfRango, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(51, 51, 51)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnGuardar)
-                            .addComponent(btnVerLista)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(41, 41, 41))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txfRango, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txfVelocidad, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnGuardar))
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addComponent(btnVerLista)
+                .addGap(28, 28, 28))
         );
 
         pack();
@@ -400,7 +431,7 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try {
-            // Validaciones básicas
+            
             if (txfNombre.getText().trim().isEmpty() || txfVida.getText().trim().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "El nombre y la vida son obligatorios.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -409,51 +440,91 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Por favor selecciona una imagen antes de guardar.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            
-            // Obtener datos
+
+           
+
             String nombre = txfNombre.getText().trim();
             String tipo = cmbTipo.getSelectedItem().toString();
             String subtipo = cmbSubtipo.getSelectedItem().toString();
-            int vida = Integer.parseInt(txfVida.getText());
-            int nivel = Integer.parseInt(txfNivelAparicion.getText());
+
             
-            // Si el subtipo es "Bloque", no tiene daño, golpes ni rango. Se guardan en 0.
+            int vida = Integer.parseInt(txfVida.getText().trim());
+
+           
+            int nivel = 0;
+            int Velocidad = 0;
             int danio = 0;
             int golpes = 0;
             int rango = 0;
 
-            if (!subtipo.equals("Bloque")) {
-                danio = Integer.parseInt(txfDanio.getText());
-                golpes = Integer.parseInt(txfGolpes.getText());
-                rango = Integer.parseInt(txfGolpes.getText());
-                
-                if (danio <= 0 || golpes <= 0) {
-                     JOptionPane.showMessageDialog(this, "El daño y los golpes por segundo deben ser mayores a 0 para componentes atacantes.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
-                     return;
-                }
+            String nivelText = txfNivelAparicion.getText().trim();
+            if (!nivelText.isEmpty()) {
+                nivel = Integer.parseInt(nivelText);
+            }
+
+     
+            String velocidadText = txfVelocidad.getText().trim();
+            if (!velocidadText.isEmpty()) {
+                Velocidad = Integer.parseInt(velocidadText);
             }
 
 
-            TipoComponente componente = new TipoComponente(nombre, vida, danio, nivel, golpes, rango, tipo, subtipo, rutaImagen);
+            String danioText = txfDanio.getText().trim();
+            if (!danioText.isEmpty()) {
+                danio = Integer.parseInt(danioText);
+            }
+
+     
+            String golpesText = txfGolpes.getText().trim();
+            if (!golpesText.isEmpty()) {
+                golpes = Integer.parseInt(golpesText);
+            }
+
+     
+            String rangoText = txfRango.getText().trim();
+            if (!rangoText.isEmpty()) {
+                rango = Integer.parseInt(rangoText);
+            }
+
+
+            if (tipo.equals("Defensa")) {
+                Velocidad = 0; 
+            }
+
+            if (!subtipo.equals("Bloque")) {
+                if (danio <= 0 || golpes <= 0) {
+                    JOptionPane.showMessageDialog(this, "El daño y los golpes por segundo deben ser mayores a 0 para componentes atacantes.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            } else {
+  
+                danio = 0;
+                golpes = 0;
+                rango = 0;
+            }
+
+    
+            TipoComponente componente = new TipoComponente(nombre, vida, danio, nivel, golpes, rango, tipo, subtipo, rutaImagen, Velocidad);
             GestorComponentes.guardarComponente(componente);
             JOptionPane.showMessageDialog(this, "Componente '" + nombre + "' guardado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            
-            // Limpiar campos después de guardar
+
+         
             txfNombre.setText("");
             txfVida.setText("");
             txfDanio.setText("");
             txfNivelAparicion.setText("");
             txfGolpes.setText("");
-            txfGolpes.setText("");
+            txfRango.setText("");
+            txfVelocidad.setText("");
             lblImagen.setIcon(null);
-            lblImagen.setText("Imagen");
+            lblImagen.setText(""); 
 
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Error: Asegúrate de que los campos de Vida, Daño, Nivel, Golpes y Rango contengan números enteros válidos.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
-        } catch (HeadlessException e) {
-            logger.log(java.util.logging.Level.SEVERE, "Error al guardar componente", e);
-            JOptionPane.showMessageDialog(this, "Error al guardar: " + e.getMessage(), "Error Desconocido", JOptionPane.ERROR_MESSAGE);
-        }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Error: Asegúrate de que los campos numéricos contengan números enteros válidos.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+    } catch (HeadlessException e) {
+        logger.log(java.util.logging.Level.SEVERE, "Error al guardar componente", e);
+        JOptionPane.showMessageDialog(this, "Error al guardar: " + e.getMessage(), "Error Desconocido", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     
@@ -468,7 +539,6 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
     private void btnVerListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerListaActionPerformed
         List<TipoComponente> componentes = GestorComponentes.cargarComponentes();
     
-        // 2. Construir el mensaje a mostrar
         if (componentes.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No hay componentes guardados.", "Lista Vacía", JOptionPane.INFORMATION_MESSAGE);
             return;
@@ -484,7 +554,6 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
             sb.append("Imagen: ").append(c.getImagen()).append("\n");
         }
 
-        // 3. Mostrar el resultado en una ventana de diálogo
         JTextArea textArea = new JTextArea(sb.toString());
         textArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textArea);
@@ -510,13 +579,17 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txfVidaActionPerformed
 
-    private void txfRangoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfRangoActionPerformed
+    private void txfVelocidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfVelocidadActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txfRangoActionPerformed
+    }//GEN-LAST:event_txfVelocidadActionPerformed
 
     private void cmbTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbTipoActionPerformed
+
+    private void txfRangoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfRangoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txfRangoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -551,6 +624,7 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbTipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -565,6 +639,7 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
     private javax.swing.JTextField txfNivelAparicion;
     private javax.swing.JTextField txfNombre;
     private javax.swing.JTextField txfRango;
+    private javax.swing.JTextField txfVelocidad;
     private javax.swing.JTextField txfVida;
     // End of variables declaration//GEN-END:variables
 }

@@ -20,9 +20,9 @@ public class GestorComponentes {
      * Carga todos los componentes guardados del archivo serializado.
      * Si el archivo no existe o está vacío, devuelve una lista vacía.
      */
-    public static List<TipoComponente> cargarComponentes() {
+    public static ArrayList<TipoComponente> cargarComponentes() {
         
-        List<TipoComponente> listaComponentes = new ArrayList<>();
+        ArrayList<TipoComponente> listaComponentes = new ArrayList<>();
         File archivo = new File(NOMBRE_ARCHIVO);
 
         
@@ -31,7 +31,7 @@ public class GestorComponentes {
                  ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
 
                 
-                listaComponentes = (List<TipoComponente>) objectIn.readObject();
+                listaComponentes = (ArrayList<TipoComponente>) objectIn.readObject();
 
             } catch (IOException e) {
                 
@@ -52,7 +52,7 @@ public class GestorComponentes {
    
     public static void guardarComponente(TipoComponente nuevoComponente) {
         
-        List<TipoComponente> listaActual = cargarComponentes();
+        ArrayList<TipoComponente> listaActual = cargarComponentes();
         
         boolean actualizado = false;
         

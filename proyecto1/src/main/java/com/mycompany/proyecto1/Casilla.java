@@ -2,6 +2,7 @@ package com.mycompany.proyecto1;
 
 import java.awt.*;
 import java.awt.datatransfer.*;
+import java.net.URL;
 import javax.swing.*;
 
 public class Casilla extends JPanel {
@@ -20,7 +21,7 @@ public class Casilla extends JPanel {
         setBorder(BorderFactory.createLineBorder(Color.GRAY));
         setBackground((y < 2 || y > 22 || x < 2 || x > 22) ? Color.PINK : Color.WHITE);
 
-        // Drop handler
+  
         setTransferHandler(new TransferHandler() {
             @Override
             public boolean canImport(TransferSupport support) {
@@ -34,10 +35,10 @@ public class Casilla extends JPanel {
                             .getTransferData(ComponenteTransferible.COMPONENTE_FLAVOR);
 
                     if (base != null && estaVacia()) {
-                        // Crear clon con ID único
+        
                         Componente nuevaDefensa = refVentana.cloneComponente(base);
                         colocarComponente(nuevaDefensa);
-                        refVentana.agregarDefensaColocada(nuevaDefensa); // agrega a arrayLists de la ventana
+                        refVentana.agregarDefensaColocada(nuevaDefensa); 
                         return true;
                     }
                 } catch (Exception e) {
@@ -51,6 +52,7 @@ public class Casilla extends JPanel {
     public void colocarComponente(Componente c) {
         this.componente = c;
         this.estado = true;
+        this.refVentana.agregarDefensaColocada(c);
         repaint();
     }
 
@@ -69,9 +71,38 @@ public class Casilla extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
         if (componente != null) {
-            ImageIcon icono = new ImageIcon(getClass().getResource(componente.getImagen()));
-            g.drawImage(icono.getImage(), 2, 2, 24, 24, this);
+            ImageIcon icono = null;
+
+            URL imageUrl = getClass().getResource(componente.getImagen()); 
+
+            if (imageUrl != null) {
+                icono = new ImageIcon(imageUrl);
+            } else {
+     
+                try {
+                    java.io.File imageFile = new java.io.File(componente.getImagen());
+                    if (imageFile.exists()) {
+                        icono = new ImageIcon(imageFile.getAbsolutePath());
+                    } else {
+           
+                        System.out.println("ADVERTENCIA: Imagen no encontrada para componente: " + componente.getNombre());
+                    }
+                } catch (Exception e) {
+    
+                    e.printStackTrace(); 
+                }
+            }
+
+          
+            if (icono != null) {
+                Image img = icono.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+                
+                g.drawImage(img, 0, 0, this); 
+            }
+
+           
         }
     }
 }

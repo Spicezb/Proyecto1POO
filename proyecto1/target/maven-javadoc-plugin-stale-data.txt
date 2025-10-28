@@ -1,0 +1,48 @@
+-J-Duser.language=
+-J-Duser.country=
+@options
+@packages
+--no-fonts
+-classpath
+'C:/Users/Paula Rodríguez A/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar'
+-encoding
+'UTF-8'
+-protected
+--release
+24
+-sourcepath
+'C:/Users/Paula Rodríguez A/OneDrive/Documentos/NetBeansProjects/Progra01_POO/Proyecto1POO/proyecto1/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2025. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/Paula Rodríguez A/OneDrive/Documentos/NetBeansProjects/Progra01_POO/Proyecto1POO/proyecto1/target/reports/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'proyecto1 1.0-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'proyecto1 1.0-SNAPSHOT API'
+com.mycompany.proyecto1
+configurador.componentes
+C:\Users\Paula Rodríguez A\.m2\repository\com\google\code\gson\gson\2.10.1\gson-2.10.1.jar = 1761426781865
+C:\Users\Paula Rodríguez A\OneDrive\Documentos\NetBeansProjects\Progra01_POO\Proyecto1POO\proyecto1\src\main\java = 1761514423769
+C:\Users\Paula Rodríguez A\OneDrive\Documentos\NetBeansProjects\Progra01_POO\Proyecto1POO\proyecto1\target\reports\apidocs\allclasses-index.html = 1761590999804
+C:\Users\Paula Rodríguez A\OneDrive\Documentos\NetBeansProjects\Progra01_POO\Proyecto1POO\proyecto1\target\reports\apidocs\allpackages-index.html = 1761590999807
+C:\Users\Paula Rodríguez A\OneDrive\Documentos\NetBeansProjects\Progra01_POO\Proyecto1POO\proyecto1\target\reports\apidocs\element-list = 1761590999383
+C:\Users\Paula Rodríguez A\OneDrive\Documentos\NetBeansProjects\Progra01_POO\Proyecto1POO\proyecto1\target\reports\apidocs\help-doc.html = 1761590999880
+C:\Users\Paula Rodríguez A\OneDrive\Documentos\NetBeansProjects\Progra01_POO\Proyecto1POO\proyecto1\target\reports\apidocs\index-all.html = 1761590999861
+C:\Users\Paula Rodríguez A\OneDrive\Documentos\NetBeansProjects\Progra01_POO\Proyecto1POO\proyecto1\target\reports\apidocs\index.html = 1761590999780
+C:\Users\Paula Rodríguez A\OneDrive\Documentos\NetBeansProjects\Progra01_POO\Proyecto1POO\proyecto1\target\reports\apidocs\member-search-index.js = 1761590999837
+C:\Users\Paula Rodríguez A\OneDrive\Documentos\NetBeansProjects\Progra01_POO\Proyecto1POO\proyecto1\target\reports\apidocs\module-search-index.js = 1761590999808
+C:\Users\Paula Rodríguez A\OneDrive\Documentos\NetBeansProjects\Progra01_POO\Proyecto1POO\proyecto1\target\reports\apidocs\overview-summary.html = 1761590999868
+C:\Users\Paula Rodríguez A\OneDrive\Documentos\NetBeansProjects\Progra01_POO\Proyecto1POO\proyecto1\target\reports\apidocs\overview-tree.html = 1761590999775
+C:\Users\Paula Rodríguez A\OneDrive\Documentos\NetBeansProjects\Progra01_POO\Proyecto1POO\proyecto1\target\reports\apidocs\package-search-index.js = 1761590999810
+C:\Users\Paula Rodríguez A\OneDrive\Documentos\NetBeansProjects\Progra01_POO\Proyecto1POO\proyecto1\target\reports\apidocs\search.html = 1761590999866
+C:\Users\Paula Rodríguez A\OneDrive\Documentos\NetBeansProjects\Progra01_POO\Proyecto1POO\proyecto1\target\reports\apidocs\serialized-form.html = 1761590999498
+C:\Users\Paula Rodríguez A\OneDrive\Documentos\NetBeansProjects\Progra01_POO\Proyecto1POO\proyecto1\target\reports\apidocs\tag-search-index.js = 1761590999839
+C:\Users\Paula Rodríguez A\OneDrive\Documentos\NetBeansProjects\Progra01_POO\Proyecto1POO\proyecto1\target\reports\apidocs\type-search-index.js = 1761590999829
